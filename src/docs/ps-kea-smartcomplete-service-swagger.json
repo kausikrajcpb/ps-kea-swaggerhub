@@ -1,0 +1,218 @@
+{
+	"openapi": "3.0.3",
+	"info": {
+		"title": "Purpleslate Kea Smart Complete Service API",
+		"description": "Welcome to Kea Smart Complete Service API Documentation.\n## Overview\nThe Kea Smart Complete Service API implements a [RESTful API Design](https://learn.microsoft.com/en-us/azure/architecture/best-practices/api-design). The API has predictable resource-oriented URLs, accepts JSON-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs.\n## Rate Limiting\nTo ensure a fair use of our services, we enforce rate limits on API requests. The rate limit is set at 100 requests per minute. If you exceed this limit, you will receive a `429 Too Many Requests` response.\n## Error Handling\nThe API uses standard HTTP status codes to indicate the success or failure of an API request. Here are some common status codes:\n- `200 OK`: The request was successful.\n- `400 Bad Request`: The request was invalid or cannot be otherwise served.\n- `401 Unauthorized`: Authentication failed or user does not have permissions for the requested operation.\n- `404 Not Found`: The requested resource could not be found.\n- `500 Internal Server Error`: An error occurred on the server.",
+		"contact": {
+			"email": "kea@purpleslate.in"
+		},
+		"license": {
+			"name": "ISC License",
+			"url": "https://www.isc.org/licenses/"
+		},
+		"version": "1.0.0"
+	},
+	"servers": [
+		{
+			"url": "http://localhost:9708/",
+			"description": "localhost server"
+		},
+    {
+        "url": "https://api.keadev.purpleslate.com/api/v1/ps-kea-smartcomplete",
+        "description": "Dev server"
+    }
+	],
+	"tags": [
+		{
+			"name": "Health",
+			"description": "Endpoints"
+		},
+		{
+			"name": "Smart Complete",
+			"description": "Endpoints"
+		}
+	],
+	"paths": {
+		"/health": {
+			"get": {
+				"tags": [
+					"Health"
+				],
+				"summary": "Smart Complete service health check",
+				"description": "Checks the Smart Complete service health",
+				"parameters": [],
+				"responses": {
+					"200": {
+						"description": "Health Check API Response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HealthResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			}
+		},
+		"/autocomplete": {
+			"post": {
+				"tags": [
+					"Smart Complete"
+				],
+				"summary": "Get autocomplete suggestions",
+				"description": "To get autocomplete suggestions",
+				"parameters": [
+					{
+						"name": "userId",
+						"in": "header",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/entityRelation": {
+			"post": {
+				"tags": [
+					"Smart Complete"
+				],
+				"summary": "Store and get suggested queries",
+				"description": "To store and get Suggested Queries from Neo4j",
+				"parameters": [
+					{
+						"name": "userId",
+						"in": "header",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "appid",
+						"in": "header",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				},
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"userId": {
+										"example": "any"
+									},
+									"appId": {
+										"example": "any"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/sort-attributes": {
+			"post": {
+				"tags": [
+					"Smart Complete"
+				],
+				"summary": "Sort entities in measure prompt",
+				"description": "To sort entities in measure prompt",
+				"parameters": [
+					{
+						"name": "userId",
+						"in": "header",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "appid",
+						"in": "header",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				},
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"userId": {
+										"example": "any"
+									},
+									"appId": {
+										"example": "any"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"securitySchemes": {
+			"bearerAuth": {
+				"type": "http",
+				"scheme": "bearer"
+			}
+		},
+		"schemas": {
+			"HealthResponse": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "string",
+						"example": "success"
+					},
+					"displayMessage": {
+						"type": "string",
+						"example": "Smart Complete service is up and running"
+					},
+					"internalErrorMessage": {
+						"type": "string",
+						"example": ""
+					}
+				}
+			}
+		}
+	}
+}

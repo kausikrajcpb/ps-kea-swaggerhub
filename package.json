@@ -1,0 +1,21 @@
+{
+  "name": "express",
+  "version": "1.0.0",
+  "description": "Kea Swagger Hub",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "swaggerhub",
+    "swagger",
+    "hub"
+  ],
+  "author": "kausikraj.cpb",
+  "license": "ISC",
+  "dependencies": {
+    "and": "^0.0.3",
+    "express": "^4.21.2",
+    "swagger-ui-express": "^5.0.1"
+  }
+}
