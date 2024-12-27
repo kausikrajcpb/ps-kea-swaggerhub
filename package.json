@@ -2,8 +2,9 @@
   "name": "express",
   "version": "1.0.0",
   "description": "Kea Swagger Hub",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
+    "build": "netlify deploy --prod",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -16,6 +17,9 @@
   "dependencies": {
     "and": "^0.0.3",
     "express": "^4.21.2",
+    "netlify-cli": "^17.38.1",
+    "netlify-lambda": "^2.0.16",
+    "serverless-http": "^3.2.0",
     "swagger-ui-express": "^5.0.1"
   }
 }

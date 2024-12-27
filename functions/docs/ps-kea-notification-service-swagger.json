@@ -1,0 +1,417 @@
+{
+	"openapi": "3.0.3",
+	"info": {
+		"title": "Purpleslate Kea Notification Service API",
+		"description": "Welcome to Kea Notification Service API Documentation.\n## Overview\nThe Kea Notification Service API implements a [RESTful API Design](https://learn.microsoft.com/en-us/azure/architecture/best-practices/api-design). The API has predictable resource-oriented URLs, accepts JSON-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs.\n## Rate Limiting\nTo ensure a fair use of our services, we enforce rate limits on API requests. The rate limit is set at 100 requests per minute. If you exceed this limit, you will receive a `429 Too Many Requests` response.\n## Error Handling\nThe API uses standard HTTP status codes to indicate the success or failure of an API request. Here are some common status codes:\n- `200 OK`: The request was successful.\n- `400 Bad Request`: The request was invalid or cannot be otherwise served.\n- `401 Unauthorized`: Authentication failed or user does not have permissions for the requested operation.\n- `404 Not Found`: The requested resource could not be found.\n- `500 Internal Server Error`: An error occurred on the server.",
+		"contact": {
+			"email": "kea@purpleslate.in"
+		},
+		"license": {
+			"name": "ISC License",
+			"url": "https://www.isc.org/licenses/"
+		},
+		"version": "1.0.0"
+	},
+	"servers": [
+		{
+			"url": "http://localhost:9711/ps-kea-notification",
+			"description": "localhost server"
+		},
+		{
+			"url": "https://api.keadev.purpleslate.com/api/v1/ps-kea-notification/",
+			"description": "Dev server"
+		}
+	],
+	"tags": [
+		{
+			"name": "Health",
+			"description": "Endpoints"
+		},
+		{
+			"name": "Notification",
+			"description": "Endpoints"
+		},
+		{
+			"name": "Actions",
+			"description": "Endpoints"
+		},
+		{
+			"name": "Ask Kea App",
+			"description": "Endpoints"
+		},
+		{
+			"name": "Mobile Push Notification",
+			"description": "Endpoints"
+		}
+	],
+	"paths": {
+		"/health": {
+			"get": {
+				"tags": [
+					"Health"
+				],
+				"summary": "Notification service health check",
+				"description": "Checks the Notification service health",
+				"parameters": [],
+				"responses": {
+					"200": {
+						"description": "Health Check API Response",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HealthResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found"
+					},
+					"500": {
+						"description": "Internal server error"
+					}
+				}
+			}
+		},
+		"/send": {
+			"post": {
+				"tags": [
+					"Notification"
+				],
+				"summary": "Send notification to kea service",
+				"description": "To send notification for kea service using ps notification service",
+				"responses": {
+					"200": {
+						"description": "OK"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/kea-action/create": {
+			"post": {
+				"tags": [
+					"Actions"
+				],
+				"summary": "Common API's for Kea action",
+				"description": "Common API's for Kea action",
+				"parameters": [
+					{
+						"name": "appid",
+						"in": "header",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/kea-action/googleDrive/create": {
+			"post": {
+				"tags": [
+					"Actions"
+				],
+				"summary": "Share files to google drive",
+				"description": "Kea action, To share files from to Google drive",
+				"parameters": [
+					{
+						"name": "appid",
+						"in": "header",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"500": {
+						"description": "Internal Server Error"
+					}
+				},
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"users": {
+										"example": "any"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/shorten/url": {
+			"post": {
+				"tags": [
+					"Actions"
+				],
+				"summary": "Convert a raw url to bitly url",
+				"description": "convert a raw url to bitly url",
+				"responses": {
+					"default": {
+						"description": ""
+					}
+				},
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"url": {
+										"example": "any"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/commands/googleChat": {
+			"post": {
+				"tags": [
+					"Actions"
+				],
+				"summary": "Create google chat kea action users",
+				"description": "To create google chat kea action users, this API will call from GCP server, not for internal purpose",
+				"parameters": [
+					{
+						"name": "req",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				},
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"type": {
+										"example": "any"
+									},
+									"message": {
+										"example": "any"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/commands/slack/events": {
+			"post": {
+				"tags": [
+					"Actions"
+				],
+				"summary": "Create slack kea action users",
+				"description": "To create slack kea action users, this API will call from slack server, not for internal purpose",
+				"responses": {
+					"200": {
+						"description": "OK"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/slack-integration": {
+			"post": {
+				"tags": [
+					"Actions"
+				],
+				"summary": "Check kea health by Slack",
+				"description": "Slack will call this API to ping Kea health",
+				"responses": {
+					"default": {
+						"description": ""
+					}
+				}
+			},
+			"get": {
+				"tags": [
+					"Actions"
+				],
+				"summary": "Check kea health by Slack",
+				"description": "Slack will call this API to ping Kea health",
+				"responses": {
+					"default": {
+						"description": ""
+					}
+				}
+			}
+		},
+		"/teams-integration": {
+			"post": {
+				"tags": [
+					"Actions"
+				],
+				"summary": "Add ms teams user details to db",
+				"description": "Add ms teams details of an user to db",
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				},
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"action": {
+										"example": "any"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/ask/msteams": {
+			"post": {
+				"tags": [
+					"Ask Kea App"
+				],
+				"summary": "Ask kea teams app",
+				"description": "Ask kea teams app",
+				"responses": {
+					"200": {
+						"description": "OK"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				},
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"action": {
+										"example": "any"
+									},
+									"text": {
+										"example": "any"
+									},
+									"value": {
+										"example": "any"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/slack/users": {
+			"get": {
+				"tags": [
+					"Actions"
+				],
+				"summary": "Create user details from slack",
+				"description": "Create user details from slack",
+				"parameters": [
+					{
+						"name": "code",
+						"in": "query",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/firebase/token": {
+			"post": {
+				"tags": [
+					"Mobile Push Notification"
+				],
+				"summary": "Mobile push notification",
+				"description": "Mobile push notification",
+				"responses": {
+					"200": {
+						"description": "OK"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/firebase/send": {
+			"post": {
+				"tags": [
+					"Mobile Push Notification"
+				],
+				"summary": "Mobile push notification",
+				"description": "Mobile push notification",
+				"responses": {
+					"200": {
+						"description": "OK"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"securitySchemes": {
+			"bearerAuth": {
+				"type": "http",
+				"scheme": "bearer"
+			}
+		},
+		"schemas": {
+			"HealthResponse": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "string",
+						"example": "success"
+					},
+					"displayMessage": {
+						"type": "string",
+						"example": "Notification service is up and running"
+					},
+					"internalErrorMessage": {
+						"type": "string",
+						"example": ""
+					}
+				}
+			}
+		}
+	}
+}
