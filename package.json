@@ -1,10 +1,11 @@
 {
-  "name": "express",
+  "name": "ps-kea-swaggerhub",
   "version": "1.0.0",
-  "description": "Kea Swagger Hub",
+  "description": "PurpleSlate Kea Swagger Hub",
   "main": "app.js",
   "scripts": {
     "build": "netlify deploy --prod",
+    "start:local": "SET NODE_ENV=localdev && node ./functions/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -12,7 +13,7 @@
     "swagger",
     "hub"
   ],
-  "author": "kausikraj.cpb",
+  "author": "kausikraj.cpb@purpleslate.in",
   "license": "ISC",
   "dependencies": {
     "and": "^0.0.3",
